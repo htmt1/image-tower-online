@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#79cdf3">
+  <title>画像タワーバトル ONLINE</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section id="menuScreen" class="screen menu-screen">
+      <div class="title-cloud">
+        <p class="eyebrow">2 PLAYER PHYSICS BATTLE</p>
+        <h1>画像タワーバトル</h1>
+        <p class="subtitle">ONLINE</p>
+        <div id="serverModeBadge" class="server-mode-badge">接続先を確認中…</div>
+      </div>
+
+      <div class="menu-card">
+        <label class="field-label" for="playerName">なまえ</label>
+        <input id="playerName" class="text-input" maxlength="14" value="プレイヤー" autocomplete="nickname">
+
+        <button id="createRoomBtn" class="primary-btn" type="button">部屋をつくる</button>
+
+        <div class="or-line"><span>または</span></div>
+
+        <label class="field-label" for="roomCodeInput">部屋番号</label>
+        <div class="join-row">
+          <input id="roomCodeInput" class="text-input code-input" maxlength="6" placeholder="123456" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]*" spellcheck="false">
+          <button id="joinRoomBtn" class="secondary-btn" type="button">参加</button>
+        </div>
+        <p id="menuMessage" class="message" aria-live="polite"></p>
+      </div>
+
+      <p id="serverModeText" class="menu-note">友だちと同じURL・同じ部屋番号に入ると対戦開始</p>
+    </section>
+
+    <section id="gameScreen" class="screen game-screen hidden">
+      <div class="topbar">
+        <div class="player-pill" id="playerLeft"><span class="dot"></span><span class="player-name">---</span></div>
+        <div class="room-panel"><span class="room-label">ROOM</span><button id="copyRoomBtn" class="room-code" type="button" title="部屋番号をコピー">------</button></div>
+        <div class="player-pill right" id="playerRight"><span class="player-name">---</span><span class="dot"></span></div>
+      </div>
+
+      <div class="game-layout">
+        <div class="side-panel left-side">
+          <div class="next-box"><span>NEXT</span><div class="next-image-wrap"><img id="nextImage" alt="次のキャラクター"></div></div>
+          <button id="hitboxBtn" class="mini-btn" type="button">当たり判定 OFF</button>
+          <button id="shareUrlBtn" class="mini-btn" type="button">対戦URLをコピー</button>
+          <button id="leaveBtn" class="mini-btn" type="button">退出</button>
+        </div>
+
+        <div class="stage-wrap">
+          <canvas id="gameCanvas" width="900" height="700" aria-label="積み上げゲーム画面"></canvas>
+          <div id="turnBanner" class="turn-banner">相手を待っています</div>
+          <div id="waitOverlay" class="wait-overlay"><div class="wait-box"><div class="spinner"></div><strong>相手を待っています</strong><p>部屋番号 <span id="waitingRoomCode">------</span> を友だちに送ってください</p></div></div>
+          <div id="gameOverOverlay" class="gameover-overlay hidden"><div class="gameover-box"><p id="gameOverKicker">GAME SET</p><h2 id="gameOverTitle">勝ち！</h2><p id="gameOverText"></p><button id="rematchBtn" class="primary-btn" type="button">もう一回</button><p id="rematchStatus" class="rematch-status"></p></div></div>
+        </div>
+
+        <div class="side-panel right-side"><div class="control-hint"><strong>操作</strong><span>← → / A D</span><span>Q E：回転</span><span>SPACE：落下</span></div></div>
+      </div>
+
+      <div class="touch-controls">
+        <button id="moveLeftBtn" type="button" aria-label="左へ">◀</button>
+        <button id="rotateLeftBtn" type="button" aria-label="左回転">↺</button>
+        <button id="dropBtn" class="drop-btn" type="button">DROP</button>
+        <button id="rotateRightBtn" type="button" aria-label="右回転">↻</button>
+        <button id="moveRightBtn" type="button" aria-label="右へ">▶</button>
+      </div>
+
+      <p id="connectionMessage" class="connection-message" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/character_images.js"></script>
+  <script src="/client.js"></script>
+</body>
+</html>
